@@ -13,6 +13,11 @@ namespace WebStore.ServiceHosting.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get() => __Values;
 
+        public ValuesController()
+        {
+
+        }
+
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
         {
