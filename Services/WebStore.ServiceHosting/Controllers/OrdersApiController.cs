@@ -19,19 +19,16 @@ namespace WebStore.ServiceHosting.Controllers
 
         public OrdersApiController(IOrderService OrderService) => _OrderService = OrderService;
 
-        public Task<OrderDTO> CreateOrderAsync(string UserName, CreateOrderModel OrderModel)
-        {
-            return _OrderService.CreateOrderAsync(UserName, OrderModel);
-        }
+        [HttpPost("{UserName?}")]
+        public Task<OrderDTO> CreateOrderAsync(string UserName, CreateOrderModel OrderModel) => _OrderService.CreateOrderAsync(UserName, OrderModel);
 
+        [HttpGet("{id}")]
         public OrderDTO GetOrderById(int id)
         {
             return _OrderService.GetOrderById(id);
         }
 
-        public IEnumerable<OrderDTO> GetUserOrders(string UserName)
-        {
-            return _OrderService.GetUserOrders(UserName);
-        }
+        [HttpGet("user/{UserName}")]
+        public IEnumerable<OrderDTO> GetUserOrders(string UserName) => _OrderService.GetUserOrders(UserName);
     }
 }
