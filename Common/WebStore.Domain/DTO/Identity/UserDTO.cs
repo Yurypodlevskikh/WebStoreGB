@@ -13,7 +13,7 @@ namespace WebStore.Domain.DTO.Identity
 
     public class AddLoginDTO : UserDTO
     {
-        public UserLoginInfo UserLoginIngo { get; set; }
+        public UserLoginInfo UserLoginInfo { get; set; }
     }
 
     public class PasswordHashDTO : UserDTO
