@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -12,7 +12,6 @@ using WebStore.DAL.Context;
 using WebStore.Domain.Entities.Identity;
 using WebStore.Infrastructure.Interfaces;
 using WebStore.Infrastructure.Services.InCookies;
-using WebStore.Infrastructure.Services.InMemory;
 using WebStore.Infrastructure.Services.InSQL;
 
 namespace WebStore.ServiceHosting
@@ -27,16 +26,22 @@ namespace WebStore.ServiceHosting
         {
             services.AddControllers();
 
+            #region Сервисы бизнес-логики
             //services.AddSingleton<IEmployeesData, InMemoryEmployeesData>();
             services.AddSingleton<IEmployeesData, EmployeesClient>();
             services.AddScoped<IProductData, SqlProductData>();
             services.AddScoped<IOrderService, SqlOrderService>();
             services.AddScoped<ICartService, CookiesCartService>();
+            #endregion
+
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
+            #region Database
             services.AddDbContext<WebStoreDB>(opt =>
             opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            #endregion
 
+            #region Identity
             services.AddIdentity<User, Role>(opt =>
             {
                 opt.Password.RequiredLength = 3;
@@ -54,6 +59,7 @@ namespace WebStore.ServiceHosting
             })
                 .AddEntityFrameworkStores<WebStoreDB>()
                 .AddDefaultTokenProviders();
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
