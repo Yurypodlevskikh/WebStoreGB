@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -16,8 +17,11 @@ namespace WebStore.Clients.Identity
 {
     public class UsersClient : BaseClient, IUsersClient
     {
-        public UsersClient(IConfiguration Configuration) : base(Configuration, WebAPI.Identity.Users)
+        private readonly ILogger<UsersClient> _Logger;
+
+        public UsersClient(IConfiguration Configuration, ILogger<UsersClient> Logger) : base(Configuration, WebAPI.Identity.Users)
         {
+            _Logger = Logger;
         }
 
         #region Implementation of IUserStore<User>
@@ -40,6 +44,9 @@ namespace WebStore.Clients.Identity
 
         public async Task SetUserNameAsync(User user, string name, CancellationToken cancel)
         {
+            _Logger.LogInformation("Изменение имени пользователя {0} на {1}",
+                user.UserName,
+                name);
             user.UserName = name;
             await PostAsync($"{_ServiceAddress}/UserName/{name}", user, cancel);
         }

@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using WebStore.DAL.Context;
@@ -20,9 +21,12 @@ namespace WebStore.ServiceHosting.Controllers
     public class UsersApiController : ControllerBase
     {
         private readonly UserStore<User, Role, WebStoreDB> _UserStore;
-        public UsersApiController(WebStoreDB db)
+        private readonly ILogger<UsersApiController> _Logger;
+
+        public UsersApiController(WebStoreDB db, ILogger<UsersApiController> Logger)
         {
             _UserStore = new UserStore<User, Role, WebStoreDB>(db);
+            _Logger = Logger;
         }
 
         [HttpGet("AllUsers")]
@@ -50,12 +54,23 @@ namespace WebStore.ServiceHosting.Controllers
         [HttpPost("NormalUserName/{name}")]
         public async Task SetNormalizedUserNameAsync([FromBody] User user, string name)
         {
+            _Logger.LogInformation("Изменение номализованного имени пользователя {0} на {1}", user.Id, name);
             await _UserStore.SetNormalizedUserNameAsync(user, name);
             await _UserStore.UpdateAsync(user);
         }
 
         [HttpPost("User")]
-        public async Task<bool> CreateAsync([FromBody] User user) => (await _UserStore.CreateAsync(user)).Succeeded;
+        public async Task<bool> CreateAsync([FromBody] User user)
+        {
+            var result = await _UserStore.CreateAsync(user);
+            if (result.Succeeded)
+                _Logger.LogInformation("Пользователь {0} был успешно создан", user.UserName);
+            else
+                _Logger.LogWarning("Ошибка при создании нового пользователя {0}:{1}",
+                    user.UserName,
+                    string.Join(",", result.Errors.Select(error => error.Description)));
+            return result.Succeeded;
+        }
 
         [HttpPut("User")]
         public async Task<bool> UpdateAsync([FromBody] User user) => (await _UserStore.UpdateAsync(user)).Succeeded;
