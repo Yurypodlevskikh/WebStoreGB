@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -11,6 +12,7 @@ using WebStore.Clients.Orders;
 using WebStore.Clients.Products;
 using WebStore.Clients.Values;
 using WebStore.Domain.Entities.Identity;
+using WebStore.Infrastructure.AutoMapper;
 using WebStore.Infrastructure.Interfaces;
 using WebStore.Infrastructure.Services.InCookies;
 using WebStore.Interfaces.Api;
@@ -25,6 +27,12 @@ namespace WebStore
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper(opt =>
+            {
+                opt.AddProfile<DTOMapping>();
+                opt.AddProfile<ViewModelsMapping>();
+            }, typeof(Startup));
+
             services.AddIdentity<User, Role>()
                .AddDefaultTokenProviders();
 
