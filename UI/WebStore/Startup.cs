@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System;
 using WebStore.Clients.Employees;
 using WebStore.Clients.Identity;
@@ -16,6 +17,7 @@ using WebStore.Infrastructure.AutoMapper;
 using WebStore.Infrastructure.Interfaces;
 using WebStore.Infrastructure.Services.InCookies;
 using WebStore.Interfaces.Api;
+using WebStore.Logger;
 
 namespace WebStore
 {
@@ -88,8 +90,10 @@ namespace WebStore
             services.AddScoped<IValuesService, ValuesClient>();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory log)
         {
+            log.AddLog4Net();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
