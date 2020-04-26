@@ -21,7 +21,7 @@ namespace WebStore.Controllers
 
         public IActionResult ErrorStatus(string Code)
         {
-            return View();
+            return RedirectToAction(nameof(Error404));
         }
     }
 }
