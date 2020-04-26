@@ -18,7 +18,10 @@ using WebStore.Infrastructure.Interfaces;
 using WebStore.Infrastructure.Middleware;
 using WebStore.Infrastructure.Services.InCookies;
 using WebStore.Interfaces.Api;
+using WebStore.Interfaces.Services;
 using WebStore.Logger;
+using WebStore.Services.Products;
+using WebStore.Services.Products.InCookies;
 
 namespace WebStore
 {
@@ -85,7 +88,9 @@ namespace WebStore
 
             services.AddSingleton<IEmployeesData, EmployeesClient>();
             services.AddScoped<IProductData, ProductsClient>();
-            services.AddScoped<ICartService, CookiesCartService>();
+            //services.AddScoped<ICartService, CookiesCartService>();
+            services.AddScoped<ICartService, CartService>();
+            services.AddScoped<ICartStore, CookiesCartStore>();
             services.AddScoped<IOrderService, OrdersClient>();
 
             services.AddScoped<IValuesService, ValuesClient>();
