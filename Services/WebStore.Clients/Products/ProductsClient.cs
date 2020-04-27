@@ -27,7 +27,7 @@ namespace WebStore.Clients.Products
             .ReadAsAsync<List<ProductDTO>>()
             .Result;
 
-        public SectionDTO GetSectionById(int id) => Get<SectionDTO>($"{_ServiceAddress}/sectioins/{id}");
+        public SectionDTO GetSectionById(int id) => Get<SectionDTO>($"{_ServiceAddress}/sections/{id}");
 
         public IEnumerable<Section> GetSections() => Get<List<Section>>($"{_ServiceAddress}/sections");
     }
