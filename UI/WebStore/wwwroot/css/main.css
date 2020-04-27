@@ -2522,3 +2522,7 @@ h2.title {
 .panel-body ul li.active{
     text-decoration: underline;
 }
+
+.panel-body ul li.active, .brands-name ul li.active{
+    text-decoration: underline;
+}
