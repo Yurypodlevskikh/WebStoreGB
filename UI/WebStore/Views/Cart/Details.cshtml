@@ -5,6 +5,9 @@
 
 <section id="cart_items">
     <div class="container">
+
+        <vc:bread-crumbs />
+
         <div class="table-responsive cart_info">
             <table class="table table-condensed">
                 <thead>
@@ -27,9 +30,11 @@
                                 </a>
                             </td>
                             <td class="cart_description">
-                                <h4><a asp-controller="Catalog" asp-action="Details" asp-route-id="@product.Id">
-                                    @product.Name
-                                </a></h4>
+                                <h4>
+                                    <a asp-controller="Catalog" asp-action="Details" asp-route-id="@product.Id">
+                                        @product.Name
+                                    </a>
+                                </h4>
                                 <p>арт.: @product.Id.ToString("0000000")</p>
                             </td>
                             <td class="cart_price">
