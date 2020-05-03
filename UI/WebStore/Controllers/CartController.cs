@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using WebStore.Domain.DTO.Orders;
-using WebStore.Domain.Entities.Orders;
+using WebStore.Domain.ViewModels;
 using WebStore.Infrastructure.Interfaces;
-using WebStore.ViewModels;
 using WebStore.ViewModels.Orders;
 
 namespace WebStore.Controllers
@@ -80,5 +77,35 @@ namespace WebStore.Controllers
             ViewBag.OrderId = id;
             return View();
         }
+
+        #region API
+
+        public IActionResult GetCartView() => ViewComponent("Cart");
+
+        public IActionResult AddToCartAPI(int id)
+        {
+            _CartService.AddToCart(id);
+            return Json(new { id, message = $"Товар id:{id} был добавлен в корзину" });
+        }
+
+        public IActionResult DecrementFromCartAPI(int id)
+        {
+            _CartService.DecrementFromCart(id);
+            return Json(new { id, message = $"Количество товара с id:{id} было уменьшено на 1" });
+        }
+
+        public IActionResult RemoveFromCartAPI(int id)
+        {
+            _CartService.RemoveFromCart(id);
+            return Json(new { id, message = $"Товар id:{id} был удалён из корзиы" });
+        }
+
+        public IActionResult RemoveAllAPI()
+        {
+            _CartService.RemoveAll();
+            return Json(new { message = "Корзина была успешно очищена" });
+        }
+
+        #endregion
     }
 }
