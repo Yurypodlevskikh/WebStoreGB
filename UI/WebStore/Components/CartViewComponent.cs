@@ -9,6 +9,6 @@ namespace WebStore.Components
 
         public CartViewComponent(ICartService CartService) => _CartService = CartService;
 
-        public IViewComponentResult Invoce() => View(_CartService.TransformFromCart());
+        public IViewComponentResult Invoke() => View(_CartService.TransformFromCart());
     }
 }

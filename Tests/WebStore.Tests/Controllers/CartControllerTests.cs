@@ -7,6 +7,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using WebStore.Controllers;
 using WebStore.Domain.DTO.Orders;
+using WebStore.Domain.ViewModels;
 using WebStore.Infrastructure.Interfaces;
 using WebStore.ViewModels;
 using WebStore.ViewModels.Orders;

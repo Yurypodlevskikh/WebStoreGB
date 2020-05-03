@@ -2,6 +2,7 @@
 using System.Linq;
 using WebStore.Domain.DTO.Products;
 using WebStore.Domain.Entities;
+using WebStore.Domain.ViewModels;
 using WebStore.ViewModels;
 
 namespace WebStore.Infrastructure.Mapping
