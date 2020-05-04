@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Linq;
@@ -47,9 +48,15 @@ namespace WebStore.Tests.Controllers
                     }
                 });
 
-            var controller = new CatalogController(product_data_mock.Object);
+            var configuration_mock = new Mock<IConfiguration>();
+            configuration_mock.Setup(config => config[It.IsAny<string>()]).Returns("3");
 
-            var result = controller.Details(expected_product_id);
+            var controller = new CatalogController(product_data_mock.Object, configuration_mock.Object);
+
+            const int expected_section_id = 1;
+            const int expected_brand_id = 5;
+
+            var result = controller.Shop(expected_section_id, expected_brand_id);
 
             var view_result = Assert.IsType<ViewResult>(result);
             var model = Assert.IsAssignableFrom<ProductViewModel>(view_result.Model);
