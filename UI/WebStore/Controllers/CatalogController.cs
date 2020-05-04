@@ -1,10 +1,9 @@
-﻿using System.Linq;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using WebStore.Domain.Entities;
 using WebStore.Domain.ViewModels;
 using WebStore.Infrastructure.Interfaces;
 using WebStore.Infrastructure.Mapping;
-using WebStore.ViewModels;
 
 namespace WebStore.Controllers
 {
@@ -27,7 +26,7 @@ namespace WebStore.Controllers
             {
                 SectionId = SectionId,
                 BrandId = BrandId,
-                Products = products.Select(ProductMapping.FromDTO).Select(ProductMapping.ToView).OrderBy(p => p.Order)
+                Products = products.Products.Select(ProductMapping.FromDTO).Select(ProductMapping.ToView).OrderBy(p => p.Order)
             });
         }
 
