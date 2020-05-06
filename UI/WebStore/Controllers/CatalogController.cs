@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using WebStore.Domain.DTO.Products;
@@ -63,7 +62,7 @@ namespace WebStore.Controllers
 
         #region API
 
-        public IActionResult GetFiltredItems(int? SectionId, int? BrandId, int Page)
+        public IActionResult GetFilteredItems(int? SectionId, int? BrandId, int Page)
         {
             var products = GetProducts(SectionId, BrandId, Page)
                 .Select(ProductMapping.FromDTO)
