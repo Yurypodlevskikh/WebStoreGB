@@ -1,0 +1,83 @@
+﻿
+@{
+    ViewData["Title"] = "Ненавязчивый АЯКС";
+}
+
+<div class="container">
+    <h3>@ViewData["Title"]</h3>
+
+    <div class="row">
+        <div class="col-md-4">
+            <h4>Server rendering</h4>
+
+            <a class="btn btn-default"
+               data-ajax="true"
+               data-ajax-url="@Url.Action("GetTestView", "AjaxTest", new { id = 42, msg = "Test Message!!!!"})"
+               data-ajax-loading="#spinner-server"
+               data-ajax-update="#panel-server"
+               >Loading</a>
+
+            <span id="spinner-server" style="display: none">
+                <i class="fa fa-cog fa-spin fa-lg"></i>
+            </span>
+
+            <div id="panel-server"></div>
+        </div>
+        <div class="col-md-4">
+            <h4>Client rendering</h4>
+
+            <a class="btn btn-default"
+               data-ajax="true"
+               data-ajax-url="@Url.Action("GetJSON", "AjaxTest", new { id = 42, msg = "Test Message!!!!"})"
+               data-ajax-loading="#spinner-client"
+               data-ajax-success="OnDataLoaded">Loading</a>
+
+            <span id="spinner-client" style="display: none">
+                <i class="fa fa-cog fa-spin fa-lg"></i>
+            </span>
+
+            <div id="panel-client"></div>
+        </div>
+        <div class="col-md-4">
+            <h4>JS rendering</h4>
+
+            <a class="btn btn-default" id="load-data-button">Load</a>
+
+            <span id="spinner-js" style="display: none">
+                <i class="fa fa-cog fa-spin fa-lg"></i>
+            </span>
+
+            <div id="panel-js"></div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{ 
+<script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+<script>
+    OnDataLoaded = data => {
+        var host = $("#panel-client");
+        host.empty();
+        host.append("msg: " + data.message);
+        host.append("time: " + data.serverTime);
+    }
+
+    $("#load-data-button").click(e => {
+        e.preventDefault();
+
+        $("#spinner-js").show();
+        console.log("Send data to server");
+
+        $.get("@Url.Action("GetJSON", "AjaxTest")", { id: 333, msg: "Hello World!!!" })
+            .done(data => {
+                $("#spinner-js").hide();
+                var host = $("#panel-js");
+                host.empty();
+                host.append("msg: " + data.message);
+                host.append("<br />")
+                host.append("time: " + data.serverTime);
+            });
+    });
+</script>
+}
+
